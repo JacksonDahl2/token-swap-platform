@@ -1,17 +1,18 @@
 "use client";
 
-"use client";
-
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
+import { TokenDataWithError } from "./Selector";
 
 interface ButtonSelectorProps {
-  tokenNames: Record<string, number>;
+  tokenNames: Record<string, string>;
+  tokenData: TokenDataWithError[];
   title: string;
 }
 
 const ButtonSelector = ({ tokenNames, title }: ButtonSelectorProps) => {
   const [selectedToken, setSelectedToken] = useState<string | null>(null);
+
 
   return (
     <div className="w-full">
