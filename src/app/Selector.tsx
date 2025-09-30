@@ -5,8 +5,8 @@ import {
   GetAssetPriceInfoResponse,
 } from "@funkit/api-base";
 import ButtonSelector from "./ButtonSelector";
-import settings from "@/server/settings";
-import logger from "@/server/logger";
+import settings from "@/lib/server/settings";
+import logger from "@/lib/server/logger";
 
 const tokenNames = {
   USDC: '1',

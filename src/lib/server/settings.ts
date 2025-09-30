@@ -1,5 +1,4 @@
 import z from "zod"
-import dotenv from 'dotenv';
 
 class InvalidEnvironment extends Error {
   constructor (message: string) {
@@ -15,8 +14,6 @@ const envSchema = z.object({
   // for logger
   NODE_ENV: z.string().optional()
 })
-
-dotenv.config();
 
 const settings = () => {
   const parsedEnvironemnt = envSchema.safeParse(process.env)
