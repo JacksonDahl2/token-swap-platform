@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "npm ci && next build --turbopack",
+    "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint . --ext .ts && npm run typecheck",
     "typecheck": "tsc --noEmit",
