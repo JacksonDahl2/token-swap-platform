@@ -14,7 +14,7 @@
   --color-card-foreground: #1a1a1a;
   --color-border: #e5e7eb;
   --color-input: #f3f4f6;
-  
+
   --color-base-50: #f8fdf8;
   --color-base-100: #f0fdf0;
   --color-base-200: #ddf4dd;
@@ -30,6 +30,11 @@
 body {
   padding: 0;
   height: 100vh;
-  font-family: var(--font-roboto), -apple-system, BlinkMacSystemFont, Segoe UI, Roboto;
+  font-family:
+    var(--font-roboto),
+    -apple-system,
+    BlinkMacSystemFont,
+    Segoe UI,
+    Roboto;
   background-color: #ffffff;
 }
