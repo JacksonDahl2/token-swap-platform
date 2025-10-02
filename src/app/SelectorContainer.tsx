@@ -59,9 +59,21 @@ const SelectorContainer = ({
     !fromTokenData.priceInfo?.unitPrice ||
     !toTokenData.priceInfo?.unitPrice
   ) {
+    let message = "";
+    if (
+      !fromTokenData.priceInfo.unitPrice &&
+      !toTokenData.priceInfo.unitPrice
+    ) {
+      message = `Unable to fetch prices for both ${fromToken} and ${toToken}`;
+    } else if (!fromTokenData.priceInfo.unitPrice) {
+      message = `Unable to fetch price for ${fromToken}`;
+    } else if (!toTokenData.priceInfo.unitPrice) {
+      message = `Unable to fetch price for ${toToken}`;
+    }
+
     errorState = {
       title: "Price data unavailable",
-      message: `Unable to fetch current prices for ${fromToken} or ${toToken}`,
+      message: message,
     };
   } else {
     swapCalculator = (

@@ -10,7 +10,7 @@ import { TokenDataWithErrorSchema, TokenDataWithError } from "@/types/token";
  */
 export const fetchTokenData = async (
   tokenNames: Record<string, string>,
-  apiKey: string
+  apiKey: string,
 ): Promise<TokenDataWithError[]> => {
   const tokenDataEntries = Object.entries(tokenNames).map(
     async ([symbol, chainId]): Promise<TokenDataWithError> => {
@@ -61,7 +61,7 @@ export const fetchTokenData = async (
         const parsedErrorData = TokenDataWithErrorSchema.parse(errorData);
         return parsedErrorData;
       }
-    }
+    },
   );
 
   return await Promise.all(tokenDataEntries);

@@ -66,7 +66,7 @@ const SwapCalculator = ({
           </h3>
           <Button
             onClick={handleClear}
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            className="text-sm text-muted-foreground hover:text-foreground hover:border transition-colors"
           >
             Clear
           </Button>

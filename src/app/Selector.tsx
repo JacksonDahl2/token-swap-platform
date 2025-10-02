@@ -3,6 +3,8 @@ import settings from "@/lib/server/settings";
 import logger from "@/lib/server/logger";
 import { fetchTokenData } from "@/services/tokenService";
 
+// if I needed to expand this more or fetch it from somewhere, could place in the
+// fetch token data service function. But since it's hardcoded it's fine for now.
 const tokenNames = {
   USDC: "1",
   USDT: "137",
@@ -17,7 +19,10 @@ const Selector = async () => {
     throw new Error(_settings.message);
   }
 
-  const allTokenData = await fetchTokenData(tokenNames, _settings.FUNKIT_API_KEY);
+  const allTokenData = await fetchTokenData(
+    tokenNames,
+    _settings.FUNKIT_API_KEY,
+  );
 
   return (
     <div>
@@ -25,7 +30,7 @@ const Selector = async () => {
         Token Price Explorer
       </h3>
       <p className="text-primary-foreground/80 text-center mb-8">
-        Welcome to your token swap platform
+        Welcome to the token swap platform
       </p>
 
       {/* Token selection container with all logic */}

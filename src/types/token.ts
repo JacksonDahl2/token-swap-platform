@@ -15,7 +15,7 @@ export const AllTokenDataSchema = z.object({
 export const TokenDataWithErrorSchema = z.object({
   symbol: z.string(),
   chainId: z.string(),
-  tokenInfo: z.any(), // Erc20AssetInfo from external library - 
+  tokenInfo: z.any(), // Erc20AssetInfo from external library -
   priceInfo: z.object({
     unitPrice: z.number(),
     amount: z.number(),

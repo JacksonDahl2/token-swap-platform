@@ -21,24 +21,21 @@
 // };
 
 module.exports = {
-  roots: ['<rootDir>/src'],
-  testEnvironment: 'node', // or 'jsdom' if you test DOM
-  testMatch: ['**/?(*.)+(spec|test).[tj]s?(x)'],
+  roots: ["<rootDir>/src"],
+  testEnvironment: "node", // or 'jsdom' if you test DOM
+  testMatch: ["**/?(*.)+(spec|test).[tj]s?(x)"],
   // If you keep your setup file, prefer moving it to src/test/setup.ts
-  setupFilesAfterEnv: ['<rootDir>/src/test/setup.ts'],
+  setupFilesAfterEnv: ["<rootDir>/src/test/setup.ts"],
   // If you can't move it, uncomment the next line to ignore it:
   // testPathIgnorePatterns: ['<rootDir>/src/__tests__/setup.ts'],
 
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1',
+    "^@/(.*)$": "<rootDir>/src/$1",
   },
 
   transform: {
-    '^.+\\.[tj]sx?$': [
-      'ts-jest',
-      { tsconfig: '<rootDir>/tsconfig.json' },
-    ],
+    "^.+\\.[tj]sx?$": ["ts-jest", { tsconfig: "<rootDir>/tsconfig.json" }],
   },
 
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
+  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json"],
 };
