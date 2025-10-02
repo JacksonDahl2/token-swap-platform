@@ -1,11 +1,11 @@
 name: Lint and Test
 
 permissions:
-    contents: read
+  contents: read
 
 on:
   pull_request:
-  
+
   push:
     branches:
       - main
@@ -35,5 +35,3 @@ jobs:
 
       - name: Test
         run: npm run test
-
-

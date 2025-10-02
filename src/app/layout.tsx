@@ -16,6 +16,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Token swap",
   description: "Created by jackson",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({

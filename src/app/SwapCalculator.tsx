@@ -12,6 +12,17 @@ interface SwapCalculatorProps {
   toTokenPrice: GetAssetPriceInfoResponse;
 }
 
+/**
+ * This function just neccessary to be mobile safe
+ */
+const validateNumericInput = (val: string): string => {
+  const numericValue = val.replace(/[^0-9.]/g, "");
+  const parts = numericValue.split(".");
+  const cleanValue =
+    parts.length > 2 ? parts[0] + "." + parts.slice(1).join("") : numericValue;
+  return cleanValue;
+};
+
 const SwapCalculator = ({
   fromToken,
   toToken,
@@ -44,21 +55,23 @@ const SwapCalculator = ({
 
   // has to be functions instead of useEffect otherwise will cause infinite loop
   const handleUpdateTo = (val: string) => {
-    setCurToInput(val);
-    const numVal = parseFloat(val) || 0;
+    const cleanValue = validateNumericInput(val);
+    setCurToInput(cleanValue);
+    const numVal = parseFloat(cleanValue) || 0;
     const calculated = numVal / exchangeRate;
     setCurFromInput(calculated.toFixed(6));
   };
 
   const handleUpdateFrom = (val: string) => {
-    setCurFromInput(val);
-    const numVal = parseFloat(val) || 0;
+    const cleanValue = validateNumericInput(val);
+    setCurFromInput(cleanValue);
+    const numVal = parseFloat(cleanValue) || 0;
     const calculated = numVal * exchangeRate;
     setCurToInput(calculated.toFixed(6));
   };
 
   return (
-    <Card className="border bg-card p-6 mx-35">
+    <Card className="border bg-card p-4 sm:p-6 mx-2 sm:mx-8 lg:mx-35">
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-semibold text-primary-foreground">
@@ -79,10 +92,12 @@ const SwapCalculator = ({
           <div className="relative">
             <Input
               type="number"
+              inputMode="decimal"
+              pattern="[0-9]*\.?[0-9]*"
               value={curFromInput}
               onChange={(e) => handleUpdateFrom(e.target.value)}
               placeholder="0.00"
-              className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+              className="w-full px-3 py-3 sm:px-4 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent text-base min-h-[48px]"
             />
           </div>
         </div>
@@ -101,10 +116,12 @@ const SwapCalculator = ({
           <div className="relative">
             <Input
               type="number"
+              inputMode="decimal"
+              pattern="[0-9]*\.?[0-9]*"
               value={curToInput}
               onChange={(e) => handleUpdateTo(e.target.value)}
               placeholder="0.00"
-              className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+              className="w-full px-3 py-3 sm:px-4 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent text-base min-h-[48px]"
             />
           </div>
         </div>

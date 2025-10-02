@@ -27,7 +27,6 @@ describe("tokenService", () => {
 
   describe("fetchTokenData", () => {
     it("should fetch token data successfully", async () => {
-      // Mock successful API responses
       mockGetAssetErc20ByChainAndSymbol.mockResolvedValueOnce({
         address: "0x1234567890abcdef",
         symbol: "USDC",
