@@ -24,16 +24,15 @@ const DataDisplayContainer = ({
         {title}
       </h4>
 
-      {/* Token Selection Buttons */}
       <div className="flex flex-wrap gap-2 mb-6 justify-center">
         {Object.keys(tokenNames).map((token) => (
           <button
             key={token}
             onClick={() => onTokenSelect(token)}
-            className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+            className={`px-3 py-2 sm:px-4 sm:py-2 rounded-lg font-medium transition-all duration-200 text-sm sm:text-base min-h-[44px] touch-manipulation ${
               selectedToken === token
                 ? "bg-accent text-accent-foreground shadow-md"
-                : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                : "bg-secondary text-secondary-foreground hover:bg-secondary/80 active:bg-secondary/90"
             }`}
           >
             {token}
@@ -41,8 +40,7 @@ const DataDisplayContainer = ({
         ))}
       </div>
 
-      {/* Data Display Card */}
-      <Card className="border bg-card p-8 min-h-[200px] flex items-center justify-center">
+      <Card className="border bg-card p-4 sm:p-6 lg:p-8 min-h-[180px] sm:min-h-[200px] flex items-center justify-center">
         <div className="text-center text-muted-foreground">
           {!selectedToken ? (
             <>
@@ -62,13 +60,15 @@ const DataDisplayContainer = ({
                 {selectedToken}
               </p>
               <div className="space-y-2">
-                <p className="text-sm">
+                <p className="text-sm sm:text-base">
                   Price: ${tokenData.priceInfo?.unitPrice?.toFixed(2) || "N/A"}
                 </p>
-                <p className="text-sm">
+                <p className="text-xs sm:text-sm break-all">
                   Address: {tokenData.tokenInfo?.address}
                 </p>
-                <p className="text-sm">Chain: {tokenData.chainId}</p>
+                <p className="text-sm sm:text-base">
+                  Chain: {tokenData.chainId}
+                </p>
               </div>
             </>
           ) : (

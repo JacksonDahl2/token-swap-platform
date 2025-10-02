@@ -58,7 +58,7 @@ const SwapCalculator = ({
   };
 
   return (
-    <Card className="border bg-card p-6 mx-35">
+    <Card className="border bg-card p-4 sm:p-6 mx-2 sm:mx-8 lg:mx-35">
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-semibold text-primary-foreground">
@@ -82,7 +82,7 @@ const SwapCalculator = ({
               value={curFromInput}
               onChange={(e) => handleUpdateFrom(e.target.value)}
               placeholder="0.00"
-              className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+              className="w-full px-3 py-3 sm:px-4 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent text-base min-h-[48px]"
             />
           </div>
         </div>
@@ -104,7 +104,7 @@ const SwapCalculator = ({
               value={curToInput}
               onChange={(e) => handleUpdateTo(e.target.value)}
               placeholder="0.00"
-              className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+              className="w-full px-3 py-3 sm:px-4 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent text-base min-h-[48px]"
             />
           </div>
         </div>
