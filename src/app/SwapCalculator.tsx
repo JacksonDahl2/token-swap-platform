@@ -12,6 +12,17 @@ interface SwapCalculatorProps {
   toTokenPrice: GetAssetPriceInfoResponse;
 }
 
+/**
+ * This function just neccessary to be mobile safe
+ */
+const validateNumericInput = (val: string): string => {
+  const numericValue = val.replace(/[^0-9.]/g, "");
+  const parts = numericValue.split(".");
+  const cleanValue =
+    parts.length > 2 ? parts[0] + "." + parts.slice(1).join("") : numericValue;
+  return cleanValue;
+};
+
 const SwapCalculator = ({
   fromToken,
   toToken,
@@ -44,15 +55,17 @@ const SwapCalculator = ({
 
   // has to be functions instead of useEffect otherwise will cause infinite loop
   const handleUpdateTo = (val: string) => {
-    setCurToInput(val);
-    const numVal = parseFloat(val) || 0;
+    const cleanValue = validateNumericInput(val);
+    setCurToInput(cleanValue);
+    const numVal = parseFloat(cleanValue) || 0;
     const calculated = numVal / exchangeRate;
     setCurFromInput(calculated.toFixed(6));
   };
 
   const handleUpdateFrom = (val: string) => {
-    setCurFromInput(val);
-    const numVal = parseFloat(val) || 0;
+    const cleanValue = validateNumericInput(val);
+    setCurFromInput(cleanValue);
+    const numVal = parseFloat(cleanValue) || 0;
     const calculated = numVal * exchangeRate;
     setCurToInput(calculated.toFixed(6));
   };
@@ -79,6 +92,8 @@ const SwapCalculator = ({
           <div className="relative">
             <Input
               type="number"
+              inputMode="decimal"
+              pattern="[0-9]*\.?[0-9]*"
               value={curFromInput}
               onChange={(e) => handleUpdateFrom(e.target.value)}
               placeholder="0.00"
@@ -101,6 +116,8 @@ const SwapCalculator = ({
           <div className="relative">
             <Input
               type="number"
+              inputMode="decimal"
+              pattern="[0-9]*\.?[0-9]*"
               value={curToInput}
               onChange={(e) => handleUpdateTo(e.target.value)}
               placeholder="0.00"
