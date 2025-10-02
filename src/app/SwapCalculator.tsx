@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
-import { TokenDataWithError } from "./Selector";
 import { GetAssetPriceInfoResponse } from "@funkit/api-base";
 
 interface SwapCalculatorProps {
@@ -23,7 +22,6 @@ const SwapCalculator = ({
   // switching from undefined to defined (undefined -> number)
   const [curFromInput, setCurFromInput] = useState<string>("");
   const [curToInput, setCurToInput] = useState<string>("");
-  const [which, setWhich] = useState(1); // sets if its updating TO or FROM
 
   const getExchangeRate = () => {
     return fromTokenPrice.unitPrice / toTokenPrice.unitPrice;
