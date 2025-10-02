@@ -1,7 +1,7 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
-import { TokenDataWithError } from "./Selector";
+import { TokenDataWithError } from "@/types/token";
 
 export interface DataDisplayContainerProps {
   tokenNames: Record<string, string>;
@@ -66,7 +66,7 @@ const DataDisplayContainer = ({
                   Price: ${tokenData.priceInfo?.unitPrice?.toFixed(2) || "N/A"}
                 </p>
                 <p className="text-sm">
-                  Address: {tokenData.tokenInfo?.address?.slice(0, 8)}...
+                  Address: {tokenData.tokenInfo?.address}...
                 </p>
                 <p className="text-sm">Chain: {tokenData.chainId}</p>
               </div>

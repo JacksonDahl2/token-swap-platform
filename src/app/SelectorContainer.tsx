@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import DataDisplayContainer from "./DataDisplayContainer";
 import SwapCalculator from "./SwapCalculator";
-import { TokenDataWithError } from "./Selector";
+import { TokenDataWithError } from "@/types/token";
 
 export interface SelectorContainerProps {
   tokenNames: Record<string, string>;
@@ -24,7 +24,7 @@ const SelectorContainer = ({
     null,
   );
 
-  // Update token data when selections or tokenData changes
+  // need to update the token data whenever the selected token changes
   useEffect(() => {
     setFromTokenData(
       fromToken
@@ -59,9 +59,21 @@ const SelectorContainer = ({
     !fromTokenData.priceInfo?.unitPrice ||
     !toTokenData.priceInfo?.unitPrice
   ) {
+    let message = "";
+    if (
+      !fromTokenData.priceInfo.unitPrice &&
+      !toTokenData.priceInfo.unitPrice
+    ) {
+      message = `Unable to fetch prices for both ${fromToken} and ${toToken}`;
+    } else if (!fromTokenData.priceInfo.unitPrice) {
+      message = `Unable to fetch price for ${fromToken}`;
+    } else if (!toTokenData.priceInfo.unitPrice) {
+      message = `Unable to fetch price for ${toToken}`;
+    }
+
     errorState = {
       title: "Price data unavailable",
-      message: `Unable to fetch current prices for ${fromToken} or ${toToken}`,
+      message: message,
     };
   } else {
     swapCalculator = (
