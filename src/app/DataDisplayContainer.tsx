@@ -66,7 +66,7 @@ const DataDisplayContainer = ({
                   Price: ${tokenData.priceInfo?.unitPrice?.toFixed(2) || "N/A"}
                 </p>
                 <p className="text-sm">
-                  Address: {tokenData.tokenInfo?.address}...
+                  Address: {tokenData.tokenInfo?.address}
                 </p>
                 <p className="text-sm">Chain: {tokenData.chainId}</p>
               </div>
