@@ -4,86 +4,107 @@ import {
   getAssetPriceInfo,
   GetAssetPriceInfoResponse,
 } from "@funkit/api-base";
-import ButtonSelector from "./ButtonSelector";
+import SelectorContainer from "./SelectorContainer";
 import settings from "@/lib/server/settings";
 import logger from "@/lib/server/logger";
 
 const tokenNames = {
-  USDC: '1',
-  USDT: '137',
-  ETH: '8453',
-  WBTC: '1',
+  USDC: "1",
+  USDT: "137",
+  ETH: "8453",
+  WBTC: "1",
 };
 
-export interface AllTokenData  {
-  symbol: string;
-  chainId: string;
-  tokenInfo: Erc20AssetInfo;
-  priceInfo: GetAssetPriceInfoResponse;
-  error?: undefined;
-}
+import { z } from "zod";
 
-export interface TokenDataWithError {
-  symbol: string;
-  chainId: string;
-  tokenInfo?: Erc20AssetInfo;
-  priceInfo?: GetAssetPriceInfoResponse;
-  error?: string;
-  hasError: boolean;
-}
+export const AllTokenDataSchema = z.object({
+  symbol: z.string(),
+  chainId: z.string(),
+  tokenInfo: z.any(), // Erc20AssetInfo from external library
+  priceInfo: z.object({
+    unitPrice: z.number(),
+    amount: z.number(),
+    total: z.number(),
+  }),
+  error: z.undefined(),
+});
 
+export const TokenDataWithErrorSchema = z.object({
+  symbol: z.string(),
+  chainId: z.string(),
+  tokenInfo: z.any(), // Erc20AssetInfo from external library
+  priceInfo: z.object({
+    unitPrice: z.number(),
+    amount: z.number(),
+    total: z.number(),
+  }),
+  error: z.string(),
+  hasError: z.boolean(),
+});
+
+export type AllTokenData = z.infer<typeof AllTokenDataSchema>;
+export type TokenDataWithError = z.infer<typeof TokenDataWithErrorSchema>;
 
 const Selector = async () => {
-
   const _settings = settings();
   if (_settings instanceof Error) {
-    logger.error('Invalid settings', _settings)
-    throw new Error(_settings.message)
+    logger.error("Invalid settings", _settings);
+    throw new Error(_settings.message);
   }
   const apiKey = _settings.FUNKIT_API_KEY;
 
-  const tokenDataEntries = Object.entries(tokenNames).map(async ([symbol, chainId]): Promise<TokenDataWithError> => {
-    try {
-      const tokenInfo = await getAssetErc20ByChainAndSymbol({ 
-        chainId: chainId.toString(), 
-        symbol, 
-        apiKey 
-      });
-      
-      const priceInfo = await getAssetPriceInfo({ 
-        chainId: chainId.toString(), 
-        assetTokenAddress: tokenInfo.address, 
-        apiKey 
-      });
-      
-      return { 
-        symbol, 
-        chainId, 
-        tokenInfo, 
-        priceInfo, 
-        hasError: false 
-      };
-    } catch (error) {
-      console.warn(`Failed to fetch data for ${symbol}:`, error);
-      return { 
-        symbol, 
-        chainId, 
-        error: error instanceof Error ? error.message : 'Unknown error',
-        hasError: true 
-      };
-    }
-  })
+  const tokenDataEntries = Object.entries(tokenNames).map(
+    async ([symbol, chainId]): Promise<TokenDataWithError> => {
+      try {
+        const tokenInfo = await getAssetErc20ByChainAndSymbol({
+          chainId: chainId.toString(),
+          symbol,
+          apiKey,
+        });
 
-  const allTokenData: TokenDataWithError[] = await Promise.all(tokenDataEntries);
-  
-  // Separate successful and failed tokens
-  const successfulTokens = allTokenData.filter(token => !token.hasError);
-  const failedTokens = allTokenData.filter(token => token.hasError);
-  
-  console.log('Successful tokens:', successfulTokens);
-  if (failedTokens.length > 0) {
-    console.warn('Failed tokens:', failedTokens);
-  }
+        const priceInfo = await getAssetPriceInfo({
+          chainId: chainId.toString(),
+          assetTokenAddress: tokenInfo.address,
+          apiKey,
+        });
+
+        const successData = {
+          symbol,
+          chainId,
+          tokenInfo,
+          priceInfo,
+          error: "",
+          hasError: false,
+        };
+
+        // Parse with Zod schema to ensure type safety
+        const parsedData = TokenDataWithErrorSchema.parse(successData);
+        return parsedData;
+      } catch (error) {
+        logger.error(`Failed to fetch data for ${symbol}:`, error);
+
+        const errorData = {
+          symbol,
+          chainId,
+          tokenInfo: null,
+          priceInfo: {
+            unitPrice: 0,
+            amount: 0,
+            total: 0,
+          },
+          error: error instanceof Error ? error.message : "Unknown error",
+          hasError: true,
+        };
+
+        // Parse error data with Zod schema
+        const parsedErrorData = TokenDataWithErrorSchema.parse(errorData);
+        return parsedErrorData;
+      }
+    },
+  );
+
+  const allTokenData: TokenDataWithError[] =
+    await Promise.all(tokenDataEntries);
 
   return (
     <div>
@@ -94,11 +115,8 @@ const Selector = async () => {
         Welcome to your token swap platform
       </p>
 
-      {/* Two ButtonSelector components side by side */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <ButtonSelector tokenNames={tokenNames} tokenData={allTokenData} title="From Token" />
-        <ButtonSelector tokenNames={tokenNames} tokenData={allTokenData} title="To Token" />
-      </div>
+      {/* Token selection container with all logic */}
+      <SelectorContainer tokenNames={tokenNames} tokenData={allTokenData} />
       {/* Result card here*/}
     </div>
   );
