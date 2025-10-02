@@ -1,0 +1,39 @@
+name: Lint and Test
+
+permissions:
+    contents: read
+
+on:
+  pull_request:
+  
+  push:
+    branches:
+      - main
+
+env:
+  FUNKIT_API_KEY: ""
+  NODE_ENV: ""
+
+jobs:
+  lint-and-typecheck-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm run test
+
+
