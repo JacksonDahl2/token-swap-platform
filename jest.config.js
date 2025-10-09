@@ -1,6 +1,6 @@
 module.exports = {
   roots: ["<rootDir>/src"],
-  testEnvironment: "node",
+  testEnvironment: "jsdom",
   testMatch: ["**/?(*.)+(spec|test).[tj]s?(x)"],
   setupFilesAfterEnv: ["<rootDir>/src/test/setup.ts"],
 
